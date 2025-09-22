@@ -5,7 +5,7 @@ members = [
     "plugins/warrior_headphone",
     "plugins/warrior_vocal",
     "plugins/warrior_usb",
-    # "plugins/titan7_mix_master",
+    "plugins/titan7_mix_master",
     "apps/dreammaker",
 ]
 
@@ -15,7 +15,7 @@ authors = ["Warrior Audio"]
 description = "Titan7 Warrior Plug-Ins: Headphone, Vocal Repair, USB Instrument, Mixing & Mastering Suite"
 
 [workspace.dependencies]
-nih_plug = "0.10"
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git" }
 nih_plug_egui = "0.6"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

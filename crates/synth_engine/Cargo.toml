@@ -12,4 +12,3 @@ crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 hound = "3.5"
-hound = "3.5"
