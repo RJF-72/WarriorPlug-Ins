@@ -1,0 +1,60 @@
+build/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.pdb
+*.idb
+*.ilk
+*.exp
+*.suo
+*.sdf
+*.opensdf
+*.vcxproj.user
+*.sln.docstates
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependencies
+node_modules/
+third_party/vst3sdk/
+third_party/vstgui/
+
+# Generated files
+src/version.h
+resources/compiled/
+
+# Platform specific
+.vs/
+x64/
+Debug/
+Release/
+
+# User settings
+*.user
+*.suo
+*.ncb
+*.aps
+*.plg
+*.opt
+*.clw
+
+# Precompiled headers
+*.pch
+*.gch
+
+# Backup files
+*~
+*.bak
+*.orig
