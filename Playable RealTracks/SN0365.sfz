@@ -1,0 +1,421 @@
+/*
+// **********************************************************************
+// 
+// © PG Music Inc 2021
+// **********************************************************************
+*/
+
+<control>
+ set_cc1=0     //Power-on Default Values: Modulation
+ set_cc11=127  //Power-on Default Values: Expression
+ set_cc64=0    //Power-on Default Values: Sustain Pedal
+
+<global>
+ sample=SN0365.wav
+ //8.4.2 MIDI Note-On Velocity to Filter Cutoff
+ //8.4.8 MIDI Continuous Controller 91 to Reverb Effects Send
+ //8.4.9 MIDI Continuous Controller 93 to Chorus Effects Send
+ //8.4.10 MIDI Pitch Wheel to Initial Pitch Controlled by MIDI Pitch Wheel Sensitivity
+ lfo06_wave=0
+ lfo06_pitch=0 lfo06_pitch_oncc129=50 lfo06_pitch_oncc1=50
+ lfo06_freq=8.176
+
+ amplitude_oncc11=100 amplitude_curvecc11=7
+
+
+<master>
+ lokey=0 hikey=127
+ lovel=0 hivel=127
+volume=6
+<region>
+ lokey=0 hikey=25
+ lovel=0 hivel=127
+ pitch_keycenter=24 //overridingRootKey
+ region_label=01 - C1
+ tune=0 offset=0 end=816968
+ //bad loop! loop_start=0 loop_end=0
+<region>
+ lokey=26 hikey=27
+ lovel=0 hivel=127
+ pitch_keycenter=26 //overridingRootKey
+ region_label=02 - D1
+ tune=0 offset=817000 end=1657783
+ //bad loop! loop_start=817000 loop_end=817000
+<region>
+ key=28
+ lovel=0 hivel=127
+ pitch_keycenter=28 //overridingRootKey
+ region_label=03 - E1
+ tune=0 offset=1657815 end=2634331
+ //bad loop! loop_start=1657815 loop_end=1657815
+<region>
+ lokey=29 hikey=30
+ lovel=0 hivel=127
+ pitch_keycenter=29 //overridingRootKey
+ region_label=04 - F1
+ tune=0 offset=2634363 end=3604529
+ //bad loop! loop_start=2634363 loop_end=2634363
+<region>
+ lokey=31 hikey=32
+ lovel=0 hivel=127
+ pitch_keycenter=31 //overridingRootKey
+ region_label=05 - G1
+ tune=0 offset=3604561 end=4547104
+ //bad loop! loop_start=3604561 loop_end=3604561
+<region>
+ lokey=33 hikey=34
+ lovel=0 hivel=127
+ pitch_keycenter=33 //overridingRootKey
+ region_label=06 - A1
+ tune=0 offset=4547136 end=5496518
+ //bad loop! loop_start=4547136 loop_end=4547136
+<region>
+ key=35
+ lovel=0 hivel=127
+ pitch_keycenter=35 //overridingRootKey
+ region_label=07 - B1
+ tune=0 offset=5496550 end=6428208
+ //bad loop! loop_start=5496550 loop_end=5496550
+<region>
+ lokey=36 hikey=37
+ lovel=0 hivel=127
+ pitch_keycenter=36 //overridingRootKey
+ region_label=08 - C2
+ tune=0 offset=6428240 end=7369031
+ //bad loop! loop_start=6428240 loop_end=6428240
+<region>
+ lokey=38 hikey=39
+ lovel=0 hivel=127
+ pitch_keycenter=38 //overridingRootKey
+ region_label=09 - D2
+ tune=0 offset=7369063 end=8210697
+ //bad loop! loop_start=7369063 loop_end=7369063
+<region>
+ key=40
+ lovel=0 hivel=127
+ pitch_keycenter=40 //overridingRootKey
+ region_label=10 - E2
+ tune=0 offset=8210729 end=9122241
+ //bad loop! loop_start=8210729 loop_end=8210729
+<region>
+ lokey=41 hikey=42
+ lovel=0 hivel=127
+ pitch_keycenter=41 //overridingRootKey
+ region_label=11 - F2
+ tune=0 offset=9122273 end=9975669
+ //bad loop! loop_start=9122273 loop_end=9122273
+<region>
+ lokey=43 hikey=44
+ lovel=0 hivel=127
+ pitch_keycenter=43 //overridingRootKey
+ region_label=12 - G2
+ tune=0 offset=9975701 end=10823515
+ //bad loop! loop_start=9975701 loop_end=9975701
+<region>
+ lokey=45 hikey=46
+ lovel=0 hivel=127
+ pitch_keycenter=45 //overridingRootKey
+ region_label=13 - A2
+ tune=0 offset=10823547 end=11522988
+ //bad loop! loop_start=10823547 loop_end=10823547
+<region>
+ key=47
+ lovel=0 hivel=127
+ pitch_keycenter=47 //overridingRootKey
+ region_label=14 - B2
+ tune=0 offset=11523020 end=12066854
+ //bad loop! loop_start=11523020 loop_end=11523020
+<region>
+ lokey=48 hikey=49
+ lovel=0 hivel=127
+ pitch_keycenter=48 //overridingRootKey
+ region_label=15 - C3
+ tune=0 offset=12066886 end=12526781
+ //bad loop! loop_start=12066886 loop_end=12066886
+<region>
+ lokey=50 hikey=51
+ lovel=0 hivel=127
+ pitch_keycenter=50 //overridingRootKey
+ region_label=16 - D3
+ tune=0 offset=12526813 end=13077061
+ //bad loop! loop_start=12526813 loop_end=12526813
+<region>
+ key=52
+ lovel=0 hivel=127
+ pitch_keycenter=52 //overridingRootKey
+ region_label=17 - E3
+ tune=0 offset=13077093 end=13647071
+ //bad loop! loop_start=13077093 loop_end=13077093
+<region>
+ lokey=53 hikey=54
+ lovel=0 hivel=127
+ pitch_keycenter=53 //overridingRootKey
+ region_label=18 - F3
+ tune=0 offset=13647103 end=14147993
+ //bad loop! loop_start=13647103 loop_end=13647103
+<region>
+ lokey=55 hikey=56
+ lovel=0 hivel=127
+ pitch_keycenter=55 //overridingRootKey
+ region_label=19 - G3
+ tune=0 offset=14148025 end=14637430
+ //bad loop! loop_start=14148025 loop_end=14148025
+<region>
+ lokey=57 hikey=58
+ lovel=0 hivel=127
+ pitch_keycenter=57 //overridingRootKey
+ region_label=20 - A3
+ tune=0 offset=14637462 end=15137993
+ //bad loop! loop_start=14637462 loop_end=14637462
+<region>
+ key=59
+ lovel=0 hivel=127
+ pitch_keycenter=59 //overridingRootKey
+ region_label=21 - B3
+ tune=0 offset=15138025 end=15611597
+ //bad loop! loop_start=15138025 loop_end=15138025
+<region>
+ lokey=60 hikey=61
+ lovel=0 hivel=127
+ pitch_keycenter=60 //overridingRootKey
+ region_label=22 - C4
+ tune=0 offset=15611629 end=16013893
+ //bad loop! loop_start=15611629 loop_end=15611629
+<region>
+ lokey=62 hikey=63
+ lovel=0 hivel=127
+ pitch_keycenter=62 //overridingRootKey
+ region_label=23 - D4
+ tune=0 offset=16013925 end=16520864
+ //bad loop! loop_start=16013925 loop_end=16013925
+<region>
+ key=64
+ lovel=0 hivel=127
+ pitch_keycenter=64 //overridingRootKey
+ region_label=24 - E4
+ tune=0 offset=16520896 end=16900386
+ //bad loop! loop_start=16520896 loop_end=16520896
+<region>
+ lokey=65 hikey=66
+ lovel=0 hivel=127
+ pitch_keycenter=65 //overridingRootKey
+ region_label=25 - F4
+ tune=0 offset=16900418 end=17250708
+ //bad loop! loop_start=16900418 loop_end=16900418
+<region>
+ lokey=67 hikey=68
+ lovel=0 hivel=127
+ pitch_keycenter=67 //overridingRootKey
+ region_label=26 - G4
+ tune=0 offset=17250740 end=17623941
+ //bad loop! loop_start=17250740 loop_end=17250740
+<region>
+ lokey=69 hikey=70
+ lovel=0 hivel=127
+ pitch_keycenter=69 //overridingRootKey
+ region_label=27 - A4
+ tune=0 offset=17623973 end=17847409
+ //bad loop! loop_start=17623973 loop_end=17623973
+<region>
+ key=71
+ lovel=0 hivel=127
+ pitch_keycenter=71 //overridingRootKey
+ region_label=28 - B4
+ tune=0 offset=17847441 end=18019096
+ //bad loop! loop_start=17847441 loop_end=17847441
+<region>
+ lokey=72 hikey=74
+ lovel=0 hivel=127
+ pitch_keycenter=72 //overridingRootKey
+ region_label=29 - C5
+ tune=0 offset=18019128 end=18331538
+ //bad loop! loop_start=18019128 loop_end=18019128
+<region>
+ lokey=75 hikey=76
+ lovel=0 hivel=127
+ pitch_keycenter=76 //overridingRootKey
+ region_label=30 - E5
+ tune=0 offset=18331570 end=18592519
+ //bad loop! loop_start=18331570 loop_end=18331570
+<region>
+ lokey=77 hikey=78
+ lovel=0 hivel=127
+ pitch_keycenter=77 //overridingRootKey
+ region_label=31 - F5
+ tune=0 offset=18592551 end=18792357
+ //bad loop! loop_start=18592551 loop_end=18592551
+<region>
+ lokey=79 hikey=80
+ lovel=0 hivel=127
+ pitch_keycenter=79 //overridingRootKey
+ region_label=32 - G5
+ tune=0 offset=18792389 end=19005914
+ //bad loop! loop_start=18792389 loop_end=18792389
+<region>
+ lokey=81 hikey=82
+ lovel=0 hivel=127
+ pitch_keycenter=81 //overridingRootKey
+ region_label=33 - A5
+ tune=0 offset=19005946 end=19237179
+ //bad loop! loop_start=19005946 loop_end=19005946
+<region>
+ key=83
+ lovel=0 hivel=127
+ pitch_keycenter=83 //overridingRootKey
+ region_label=34 - B5
+ tune=0 offset=19237211 end=19456875
+ //bad loop! loop_start=19237211 loop_end=19237211
+<region>
+ lokey=84 hikey=85
+ lovel=0 hivel=127
+ pitch_keycenter=84 //overridingRootKey
+ region_label=35 - C6
+ tune=0 offset=19456907 end=19615301
+ //bad loop! loop_start=19456907 loop_end=19456907
+<region>
+ lokey=86 hikey=87
+ lovel=0 hivel=127
+ pitch_keycenter=86 //overridingRootKey
+ region_label=36 - D6
+ tune=0 offset=19615333 end=19789255
+ //bad loop! loop_start=19615333 loop_end=19615333
+<region>
+ key=88
+ lovel=0 hivel=127
+ pitch_keycenter=88 //overridingRootKey
+ region_label=37 - E6
+ tune=0 offset=19789287 end=19965678
+ //bad loop! loop_start=19789287 loop_end=19789287
+<region>
+ lokey=89 hikey=90
+ lovel=0 hivel=127
+ pitch_keycenter=89 //overridingRootKey
+ region_label=38 - F6
+ tune=0 offset=19965710 end=20066094
+ //bad loop! loop_start=19965710 loop_end=19965710
+<region>
+ lokey=91 hikey=92
+ lovel=0 hivel=127
+ pitch_keycenter=91 //overridingRootKey
+ region_label=39 - G6
+ tune=0 offset=20066126 end=20147004
+ //bad loop! loop_start=20066126 loop_end=20066126
+<region>
+ lokey=93 hikey=127
+ lovel=0 hivel=127
+ pitch_keycenter=93 //overridingRootKey
+ region_label=40 - A6
+ tune=0 offset=20147036 end=20225919
+ //bad loop! loop_start=20147036 loop_end=20147036
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<curve>//7 GMCurves::ConvaveLin
+ v000=0            v001=6.20001e-05  v002=0.000248     v003=0.000558001  v004=0.000992002 
+ v005=0.00155      v006=0.002232     v007=0.00303801   v008=0.00396801   v009=0.00502201  
+ v010=0.00620001   v011=0.00750202   v012=0.00892802   v013=0.010478     v014=0.012152    
+ v015=0.01395      v016=0.015872     v017=0.017918     v018=0.020088     v019=0.022382    
+ v020=0.0248       v021=0.0273421    v022=0.0300081    v023=0.0327981    v024=0.0357121   
+ v025=0.0387501    v026=0.0419121    v027=0.0451981    v028=0.0486081    v029=0.0521421   
+ v030=0.0558001    v031=0.0595821    v032=0.0634881    v033=0.0675181    v034=0.0716721   
+ v035=0.0759502    v036=0.0803522    v037=0.0848782    v038=0.0895282    v039=0.0943022   
+ v040=0.0992002    v041=0.104222     v042=0.109368     v043=0.114638     v044=0.120032    
+ v045=0.12555      v046=0.131192     v047=0.136958     v048=0.142848     v049=0.148862    
+ v050=0.155        v051=0.161262     v052=0.167648     v053=0.174158     v054=0.180792    
+ v055=0.18755      v056=0.194432     v057=0.201438     v058=0.208568     v059=0.215822    
+ v060=0.2232       v061=0.230702     v062=0.238328     v063=0.246078     v064=0.253953    
+ v065=0.261951     v066=0.270073     v067=0.278319     v068=0.286689     v069=0.295183    
+ v070=0.303801     v071=0.312543     v072=0.321409     v073=0.330399     v074=0.339513    
+ v075=0.348751     v076=0.358113     v077=0.367599     v078=0.377209     v079=0.386943    
+ v080=0.396801     v081=0.406783     v082=0.416889     v083=0.427119     v084=0.437473    
+ v085=0.447951     v086=0.458553     v087=0.469279     v088=0.480129     v089=0.491103    
+ v090=0.502201     v091=0.513423     v092=0.524769     v093=0.536239     v094=0.547833    
+ v095=0.559551     v096=0.571393     v097=0.583359     v098=0.595449     v099=0.607663    
+ v100=0.620001     v101=0.632463     v102=0.645049     v103=0.657759     v104=0.670593    
+ v105=0.683551     v106=0.696633     v107=0.709839     v108=0.723169     v109=0.736623    
+ v110=0.750202     v111=0.763904     v112=0.77773      v113=0.79168      v114=0.805754    
+ v115=0.819952     v116=0.834274     v117=0.84872      v118=0.86329      v119=0.877984    
+ v120=0.892802     v121=0.907744     v122=0.92281      v123=0.938        v124=0.953314    
+ v125=0.968752     v126=0.984314     v127=1           
+
