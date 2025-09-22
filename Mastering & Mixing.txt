@@ -1,0 +1,15 @@
+Design and implement the Titan 7 Mixing & Mastering Suite for the Titan7 DAW system.
+
+Feature Overview:
+
+Comprehensive suite including all essential effects and plugins for professional mixing and mastering.
+High-quality EQs, compressors, limiters, multiband processors, reverbs, delays, saturation, stereo imagers, and dynamic processors.
+Intuitive, photorealistic UI matching the Titan7 DAW, with visual routing, metering, and effect controls.
+Advanced mastering chain presets for various genres, with customization and A/B comparison.
+Seamless integration with Titan7 DAW workflow, supporting drag-and-drop effect stacking and instant recall.
+Support for both software DAW and future hardware integration.
+Stretch Features:
+
+AI-powered mix assistant to suggest effect chains and settings based on reference tracks.
+Automatic loudness and compliance metering for streaming, CD, and broadcast standards.
+Exportable plugin chains and custom effect presets for collaboration and licensing.

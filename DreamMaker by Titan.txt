@@ -1,0 +1,1003 @@
+DreamMaker by Titan
+  return (
+    <div className="min-h-screen bg-gray-700 p-6" style={{ backgroundColor: '#404040' }}>
+      <div className="max-w-full mx-auto relative">
+        
+        {/* HarmonyForge Slideout Panel */}
+        <div className={`fixed top-0 left-0 h-full w-96 bg-gray-900 z-50 transform transition-transform duration-300 ${
+          harmonyForgeOpen ? 'translate-x-0' : '-translate-x-full'
+        }`} style={{ backgroundColor: '#1a1a2e', boxShadow: '5px 0 20px #00000080' }}>
+          
+          {/* Panel Header */}
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-white">HarmonyForge</h2>
+                <p className="text-sm text-gray-200">AI Music Generation</p>
+              </div>
+              <button
+                onClick={() => setHarmonyForgeOpen(false)}
+                className="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30"
+              >
+                <ChevronLeft className="text-white" size={20} />
+              </button>
+            </div>
+          </div>
+          
+          {/* Tab Navigation */}
+          <div className="flex bg-gray-800">
+            <button
+              onClick={() => setActiveTab('create')}
+              className={`flex-1 p-3 text-sm font-medium ${
+                activeTab === 'create' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Create
+            </button>
+            <button
+              onClick={() => setActiveTab('midi')}
+              className={`flex-1 p-3 text-sm font-medium ${
+                activeTab === 'midi' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              MIDI Writer
+            </button>
+          </div>
+          
+          {/* Panel Content */}
+          <div className="h-full overflow-y-auto pb-20 p-4">
+            
+            {/* Create Tab */}
+            {activeTab === 'create' && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Song Title</label>
+                  <input
+                    type="text"
+                    value={songData.title}
+                    onChange={(e) => updateSongData('title', e.target.value)}
+                    className="w-full p-2 bg-gray-700 text-white rounded border border-gray-600"
+                    placeholder="Enter song title"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Lyrics</label>
+                  <textarea
+                    value={songData.lyrics}
+                    onChange={(e) => updateSongData('lyrics', e.target.value)}
+                    className="w-full p-2 bg-gray-700 text-white rounded border border-gray-600 h-24"
+                    placeholder="Enter lyrics..."
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Genre</label>
+                  <select
+                    value={songData.genre}
+                    onChange={(e) => updateSongData('genre', e.target.value)}
+                    className="w-full p-2 bg-gray-700 text-white rounded border border-gray-600"
+                  >
+                    <option value="country">Country</option>
+                    <option value="christian">Christian</option>
+                    <option value="pop">Pop</option>
+                    <option value="rock">Rock</option>
+                    <option value="jazz">Jazz</option>
+                  </select>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Tempo</label>
+                    <input
+                      type="range"
+                      min="60"
+                      max="180"
+                      value={songData.tempo}
+                      onChange={(e) => updateSongData('tempo', parseInt(e.target.value))}
+                      className="w-full"
+                    />
+                    <div className="text-center text-sm text-gray-400">{songData.tempo} BPM</div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Key</label>
+                    <select
+                      value={songData.key}
+                      onChange={(e) => updateSongData('key', e.target.value)}
+                      className="w-full p-2 bg-gray-700 text-white rounded border border-gray-600"
+                    >
+                      <option value="C">C Major</option>
+                      <option value="G">G Major</option>
+                      <option value="D">D Major</option>
+                      <option value="A">A Major</option>
+                      <option value="E">E Major</option>
+                      <option value="Am">A Minor</option>
+                      <option value="Em">E Minor</option>
+                      <option value="Dm">D Minor</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => generateSong(false)}
+                  className="w-full p-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded font-medium hover:opacity-90"
+                >
+                  Generate Song & MIDI
+                </button>
+              </div>
+            )}
+            
+            {/* MIDI Writer Tab */}
+            {activeTab === 'midi' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-white">MIDI Writer</h3>
+                  <div className="flex space-x-2">
+                    <HardwareButton
+                      active={isRecording}
+                      onClick={() => setIsRecording(!isRecording)}
+                      color="#ff4444"
+                      size="small"
+                    >
+                      REC
+                    </HardwareButton>
+                    <HardwareButton
+                      active={false}
+                      onClick={exportAllStems}
+                      color="#00ff88"
+                      size="small"
+                    >
+                      <Download size={14} />
+                    </HardwareButton>
+                  </div>
+                </div>
+                
+                {/* Track List */}
+                <div className="space-y-2">
+                  {midiTracks.map((track) => (
+                    <div key={track.id} className="bg-gray-800 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <div className="text-sm font-medium text-white">{track.name}</div>
+                          <div className="text-xs text-gray-400">Ch{track.channel}</div>
+                        </div>
+                        <div className="flex space-x-1">
+                          <HardwareButton
+                            active={track.muted}
+                            onClick={() => setMidiTracks(prev => prev.map(t => 
+                              t.id === track.id ? { ...t, muted: !t.muted } : t
+                            ))}
+                            color="#ff4444"
+                            size="small"
+                          >
+                            M
+                          </HardwareButton>
+                          <HardwareButton
+                            active={track.solo}
+                            onClick={() => setMidiTracks(prev => prev.map(t => 
+                              t.id === track.id ? { ...t, solo: !t.solo } : t
+                            ))}
+                            color="#ffff00"
+                            size="small"
+                          >
+                            S
+                          </HardwareButton>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2 mb-2">
+                        <input
+                          type="range"
+                          min="0"
+                          max="127"
+                          value={track.volume}
+                          onChange={(e) => setMidiTracks(prev => prev.map(t => 
+                            t.id === track.id ? { ...t, volume: parseInt(e.target.value) } : t
+                          ))}
+                          className="flex-1 h-1"
+                        />
+                        <div className="text-xs text-gray-400 w-8">{track.volume}</div>
+                      </div>
+                      
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => generateMidiForTrack(track.id)}
+                          className="flex-1 p-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700"
+                        >
+                          Generate
+                        </button>
+                        <button
+                          onClick={() => exportMidiTrack(track.id)}
+                          className="p-1 bg-green-600 text-white text-xs rounded hover:bg-green-700"
+                        >
+                          <Download size={12} />
+                        </button>
+                      </div>
+                      
+                      {/* Notes preview */}
+                      <div className="mt-2 text-xs text-gray-500">
+                        {track.notes.length} notes
+                        {track.instrument === 'vocal' && track.notes.some(n => n.lyric) && (
+                          <span className="ml-2 text-pink-400">+ Lyrics</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Vocal Font Settings */}
+                <div className="bg-gray-800 rounded-lg p-3">
+                  <h4 className="text-sm font-bold text-white mb-2">Vocal Synthesis</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <label className="block text-xs text-gray-300">Voice Font</label>
+                      <select className="w-full p-1 bg-gray-700 text-white text-xs rounded">
+                        <option>SF2VOC Male Lead</option>
+                        <option>SF2VOC Female Lead</option>
+                        <option>SF2VOC Choir</option>
+                        <option>VocalFont Classic</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-300">Formant</label>
+                      <input type="range" min="-50" max="50" defaultValue="0" className="w-full" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Toggle Button */}
+        <button
+          onClick={() => setHarmonyForgeOpen(!harmonyForgeOpen)}
+          className={`fixed top-4 left-4 z-40 p-3 rounded-lg transition-all ${
+            harmonyForgeOpen ? 'bg-purple-600' : 'bg-gray-800 hover:bg-gray-700'
+          }`}
+          style={{ boxShadow: '0 0 15px #00000040' }}
+        >
+          {harmonyForgeOpen ? <ChevronLeft className="text-white" size={20} /> : <Music className="text-white" size={20} />}
+        </button>
+        
+        {/* Overlay */}
+        {harmonyForgeOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setHarmonyForgeOpen(false)}
+          />
+        )}
+        
+        {/* Hardware Case */}
+        <div className="bg-gray-900 rounded-lg p-8 border-4 border-gray-600" 
+             style={{ 
+               backgroundColor: '#2a2a2a',
+               boxShadow: 'inset 0 0 50px #00000080, 0 0 30px #00000060'
+             }}>
+          
+          <div className="flex gap-8">
+            
+            {/* Main Display */}
+            <div className="flex-1 bg-black rounded-lg p-6 border-4 border-gray-700"
+                 style={{ boxShadow: 'inset 0 0 30px #00000080' }}>
+              
+              <canvas
+                ref={canvasRef}
+                width={1000}
+                height={500}
+                className="w-full h-full"
+                style={{ backgroundColor: '#000000' }}
+              />
+            </div>
+            
+            {/* Right Control Panel */}
+            <div className="w-80 bg-gray-800 rounded-lg p-6 border-2 border-gray-600"
+                 style={{ backgroundColor: '#1a1a1a' }}>
+              
+              {/* TITAN7 Header */}
+              <div className="text-right mb-6">
+                <div className="text-4xl font-bold text-white tracking-wider" 
+                     style={{ textShadow: '0 0 10px #ffffff40' }}>
+                  TITAN7
+                </div>
+              </div>
+              
+              {/* Top Button Grid */}
+              <div className="grid grid-cols-5 gap-1 mb-4">
+                {['MAGS', 'DUPL', 'GHOST', 'MULT', 'SHUFF'].map((label, i) => (
+                  <HardwareButton
+                    key={label}
+                    active={i === 1}
+                    color={i === 1 ? '#ff8800' : '#666666'}
+                    size="small"
+                  >
+                    {label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              <div className="grid grid-cols-4 gap-1 mb-6">
+                {['ANCH', 'HITBOX', 'CONF', 'LAY1', 'SHUFF', 'VIDEO', 'SHIFTLA', 'ST/MO'].map((label, i) => (
+                  <HardwareButton
+                    key={label}
+                    active={false}
+                    color="#666666"
+                    size="small"
+                  >
+                    {label.length > 4 ? label.slice(0, 4) : label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              {/* Large Control Knob */}
+              <div className="flex justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-full border-4 border-gray-500"
+                       style={{ 
+                         background: 'radial-gradient(circle at 30% 30%, #e0e0e0, #808080)',
+                         boxShadow: '0 4px 15px #00000060, inset 0 0 15px #ffffff40'
+                       }}>
+                    <div className="absolute inset-3 rounded-full"
+                         style={{ 
+                           background: 'radial-gradient(circle at 30% 30%, #a0a0a0, #404040)',
+                           boxShadow: 'inset 0 0 10px #00000080'
+                         }}>
+                    </div>
+                    <div className="absolute top-1 left-1/2 w-1 h-6 bg-white rounded transform -translate-x-1/2"
+                         style={{ boxShadow: '0 0 3px #000000' }}>
+                    </div>
+                  </div>
+                  
+                  {/* Small knob below */}
+                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+                    <div className="w-6 h-6 rounded-full bg-gray-700 border border-gray-500"></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Control Buttons */}
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                <HardwareButton active={false} color="#666666">SHUFF</HardwareButton>
+                <HardwareButton active={false} color="#666666">PRESET</HardwareButton>
+                <HardwareButton active={false} color="#666666">FADE</HardwareButton>
+              </div>
+              
+              {/* Additional Controls */}
+              <div className="grid grid-cols-4 gap-1 mb-4">
+                {['DELETE', 'CRUISE', 'CUT/FIT', 'TEMPO'].map((label) => (
+                  <HardwareButton key={label} active={false} color="#666666" size="small">
+                    {label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              {/* Numeric Keypad */import React, { useState, useEffect, useRef } from 'react';
+import { Play, Pause, Square, RotateCcw, Volume2, Music, Mic, Piano, Guitar, ChevronLeft, ChevronRight, Download, Upload, Save } from 'lucide-react';
+
+const TITAN7Interface = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [harmonyForgeOpen, setHarmonyForgeOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('create');
+  const [midiWriterOpen, setMidiWriterOpen] = useState(false);
+  
+  // HarmonyForge state
+  const [songData, setSongData] = useState({
+    title: '',
+    lyrics: '',
+    description: '',
+    genre: 'country',
+    mood: [],
+    tempo: 120,
+    key: 'C',
+    length: 180
+  });
+  
+  // MIDI Writer state
+  const [midiTracks, setMidiTracks] = useState([
+    { id: 1, name: 'Lead Vocals', instrument: 'vocal', notes: [], volume: 80, muted: false, solo: false, channel: 1 },
+    { id: 2, name: 'Backing Vocals', instrument: 'vocal', notes: [], volume: 70, muted: false, solo: false, channel: 2 },
+    { id: 3, name: 'Lead Guitar', instrument: 'guitar', notes: [], volume: 75, muted: false, solo: false, channel: 3 },
+    { id: 4, name: 'Rhythm Guitar', instrument: 'guitar', notes: [], volume: 65, muted: false, solo: false, channel: 4 },
+    { id: 5, name: 'Bass Guitar', instrument: 'bass', notes: [], volume: 80, muted: false, solo: false, channel: 5 },
+    { id: 6, name: 'Drums', instrument: 'drums', notes: [], volume: 85, muted: false, solo: false, channel: 10 },
+    { id: 7, name: 'Piano', instrument: 'piano', notes: [], volume: 70, muted: false, solo: false, channel: 7 },
+    { id: 8, name: 'Strings', instrument: 'strings', notes: [], volume: 60, muted: false, solo: false, channel: 8 },
+  ]);
+  
+  const [selectedTrack, setSelectedTrack] = useState(1);
+  const [isRecording, setIsRecording] = useState(false);
+  
+  // Track configuration matching the image
+  const [tracks] = useState([
+    { id: 1, name: '1', numbers: '1 2 0', color: '#00ffaa', waveData: [] },
+    { id: 2, name: '2', numbers: '5 7', color: '#88ff00', waveData: [] },
+    { id: 3, name: '3', numbers: '4 2 1', color: '#ffff00', waveData: [] },
+    { id: 4, name: '4', numbers: '8 1 3', color: '#ff8800', waveData: [] },
+    { id: 5, name: '5', numbers: '5 A 3', color: '#ff4444', waveData: [] },
+    { id: 6, name: 'H', numbers: '0 W 7', color: '#aa44ff', waveData: [] }
+  ]);
+  
+  // Master and additional tracks
+  const [bottomTracks] = useState([
+    { name: 'HI', label: 'MASTER', number: '3', color: '#00aaff' },
+    { name: 'MI', label: 'MORE', number: '1', color: '#00aaff' }
+  ]);
+  
+  // Channel faders (20+ channels like in the image)
+  const [channels] = useState(Array(20).fill().map((_, i) => {
+    const labels = ['H', 'X', 'J1', 'C19', 'W', '1S', '7', '0', '0', 'L30', '21', '53', '2U', '0H', 'DECODE', 'STREAM', 'MIDI', 'IMPLEMENT', 'CYBER', 'POWER'];
+    return {
+      id: i + 1,
+      label: labels[i] || `${i + 1}`,
+      volume: 20 + Math.random() * 60,
+      active: i < 14, // First 14 channels are green/active
+      color: i < 14 ? '#00ff88' : (i === 19 ? '#ff8800' : '#666666')
+    };
+  }));
+  // MIDI Writer functions
+  const addMidiNote = (trackId, note, velocity = 80, duration = 0.5, time = 0) => {
+    setMidiTracks(prev => prev.map(track => 
+      track.id === trackId 
+        ? { ...track, notes: [...track.notes, { note, velocity, duration, time: Date.now() + time }] }
+        : track
+    ));
+  };
+
+  const generateMidiForTrack = (trackId) => {
+    const track = midiTracks.find(t => t.id === trackId);
+    if (!track) return;
+
+    // Generate MIDI patterns based on instrument type
+    const patterns = {
+      vocal: generateVocalMidi,
+      guitar: generateGuitarMidi,
+      bass: generateBassMidi,
+      drums: generateDrumsMidi,
+      piano: generatePianoMidi,
+      strings: generateStringsMidi
+    };
+
+    const generator = patterns[track.instrument];
+    if (generator) {
+      const notes = generator();
+      setMidiTracks(prev => prev.map(t => 
+        t.id === trackId ? { ...t, notes } : t
+      ));
+    }
+  };
+
+  const generateVocalMidi = () => {
+    // Generate vocal melody with lyrics integration
+    const notes = [];
+    const lyrics = songData.lyrics.split(' ');
+    const baseNotes = [60, 62, 64, 67, 69]; // C major pentatonic
+    
+    lyrics.forEach((word, i) => {
+      const noteIndex = i % baseNotes.length;
+      notes.push({
+        note: baseNotes[noteIndex],
+        velocity: 80,
+        duration: 0.5,
+        time: i * 0.5,
+        lyric: word
+      });
+    });
+    
+    return notes;
+  };
+
+  const generateGuitarMidi = () => {
+    const chords = [
+      [60, 64, 67], // C major
+      [62, 65, 69], // D minor
+      [55, 59, 62], // G major
+      [57, 60, 64]  // A minor
+    ];
+    
+    return chords.flatMap((chord, i) => 
+      chord.map(note => ({
+        note,
+        velocity: 70,
+        duration: 2.0,
+        time: i * 2.0
+      }))
+    );
+  };
+
+  const generateBassMidi = () => {
+    const bassNotes = [36, 38, 31, 33]; // Bass line
+    return bassNotes.map((note, i) => ({
+      note,
+      velocity: 90,
+      duration: 1.0,
+      time: i * 2.0
+    }));
+  };
+
+  const generateDrumsMidi = () => {
+    const pattern = [
+      { note: 36, time: 0 },    // Kick
+      { note: 38, time: 1 },    // Snare
+      { note: 42, time: 0.5 },  // Hi-hat
+      { note: 42, time: 1.5 },  // Hi-hat
+    ];
+    
+    return pattern.map(({ note, time }) => ({
+      note,
+      velocity: 100,
+      duration: 0.1,
+      time
+    }));
+  };
+
+  const generatePianoMidi = () => {
+    const melody = [60, 62, 64, 65, 67, 69, 71, 72];
+    return melody.map((note, i) => ({
+      note,
+      velocity: 75,
+      duration: 0.5,
+      time: i * 0.5
+    }));
+  };
+
+  const generateStringsMidi = () => {
+    const harmony = [64, 67, 71, 74]; // String harmony
+    return harmony.map((note, i) => ({
+      note,
+      velocity: 60,
+      duration: 4.0,
+      time: i * 1.0
+    }));
+  };
+
+  const exportMidiTrack = (trackId) => {
+    const track = midiTracks.find(t => t.id === trackId);
+    if (!track) return;
+
+    // Create MIDI blob (simplified representation)
+    const midiData = {
+      track: track.name,
+      instrument: track.instrument,
+      channel: track.channel,
+      notes: track.notes,
+      metadata: {
+        tempo: songData.tempo,
+        key: songData.key,
+        lyrics: track.instrument === 'vocal' ? songData.lyrics : null
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(midiData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${track.name.toLowerCase().replace(/\s+/g, '_')}.mid.json`;
+    a.click();
+  };
+
+  const exportAllStems = () => {
+    midiTracks.forEach(track => {
+      if (track.notes.length > 0) {
+        setTimeout(() => exportMidiTrack(track.id), track.id * 100);
+      }
+    });
+  };
+
+  // HarmonyForge functions
+  const generateSong = async (isPreview = false) => {
+    // Simulate AI generation
+    const duration = isPreview ? 2000 : 5000;
+    
+    setTimeout(() => {
+      // Auto-populate MIDI tracks with generated content
+      midiTracks.forEach(track => {
+        generateMidiForTrack(track.id);
+      });
+    }, duration);
+  };
+
+  const updateSongData = (field, value) => {
+    setSongData(prev => ({ ...prev, [field]: value }));
+  };
+  const animationRef = useRef(null);
+  const timeRef = useRef(0);
+
+  // Generate realistic waveform data for each track
+  const generateTrackWaveforms = (time) => {
+    return tracks.map((track, trackIndex) => {
+      const points = 1200;
+      const waveData = [];
+      
+      for (let i = 0; i < points; i++) {
+        const x = i / points;
+        let y = 0;
+        
+        // Create varied waveform patterns for each track
+        switch (trackIndex) {
+          case 0: // Track 1 - Dense waveform
+            y = Math.sin(x * Math.PI * 20 + time * 0.02) * Math.sin(x * Math.PI * 80 + time * 0.05) * 0.8;
+            break;
+          case 1: // Track 2 - Medium density
+            y = Math.sin(x * Math.PI * 12 + time * 0.03) * Math.cos(x * Math.PI * 40 + time * 0.04) * 0.6;
+            break;
+          case 2: // Track 3 - Sparse waveform
+            y = Math.sin(x * Math.PI * 6 + time * 0.025) * Math.sin(x * Math.PI * 25 + time * 0.035) * 0.7;
+            break;
+          case 3: // Track 4 - Complex pattern
+            y = Math.sin(x * Math.PI * 15 + time * 0.04) * Math.cos(x * Math.PI * 60 + time * 0.03) * 0.8;
+            break;
+          case 4: // Track 5 - High frequency
+            y = Math.sin(x * Math.PI * 25 + time * 0.045) * Math.sin(x * Math.PI * 100 + time * 0.06) * 0.5;
+            break;
+          case 5: // Track H - Low frequency
+            y = Math.sin(x * Math.PI * 8 + time * 0.02) * Math.cos(x * Math.PI * 30 + time * 0.025) * 0.9;
+            break;
+        }
+        
+        waveData.push({ x: x * 100, y });
+      }
+      
+      return { ...track, waveData };
+    });
+  };
+
+  // Animation loop
+  useEffect(() => {
+    const animate = () => {
+      if (isPlaying) {
+        timeRef.current += 1;
+        drawWaveforms();
+      }
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animate();
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isPlaying]);
+
+  const drawWaveforms = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Clear with dark background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+    
+    const trackData = generateTrackWaveforms(timeRef.current);
+    const trackHeight = height / 10; // 6 tracks + 2 bottom tracks + spacing
+    
+    // Draw main tracks (1-6 and H)
+    trackData.forEach((track, index) => {
+      const y = 60 + (trackHeight * index); // Start below timeline
+      
+      // Draw track background
+      ctx.fillStyle = '#111111';
+      ctx.fillRect(0, y - trackHeight/2 + 10, width, trackHeight - 5);
+      
+      // Draw horizontal separator
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, y + trackHeight/2 + 5);
+      ctx.lineTo(width, y + trackHeight/2 + 5);
+      ctx.stroke();
+      
+      // Draw track labels on the left
+      ctx.fillStyle = '#999999';
+      ctx.font = '14px monospace';
+      ctx.fillText(track.name, 15, y - 5);
+      ctx.font = '10px monospace';
+      ctx.fillText(track.numbers, 15, y + 10);
+      
+      // Draw waveform
+      if (track.waveData.length > 0) {
+        ctx.strokeStyle = track.color;
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = track.color;
+        ctx.shadowBlur = 3;
+        ctx.beginPath();
+        
+        track.waveData.forEach((point, pointIndex) => {
+          const x = 80 + ((point.x / 100) * (width - 100));
+          const waveY = y + point.y * (trackHeight * 0.3);
+          
+          if (pointIndex === 0) {
+            ctx.moveTo(x, waveY);
+          } else {
+            ctx.lineTo(x, waveY);
+          }
+        });
+        
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+    });
+    
+    // Draw bottom tracks (MASTER and MORE)
+    bottomTracks.forEach((track, index) => {
+      const y = 60 + (trackHeight * 6.5) + (trackHeight * 0.8 * index);
+      
+      // Track background
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, y - 15, width, 30);
+      
+      // Separator
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, y + 15);
+      ctx.lineTo(width, y + 15);
+      ctx.stroke();
+      
+      // Labels
+      ctx.fillStyle = '#999999';
+      ctx.font = '12px monospace';
+      ctx.fillText(track.name, 15, y - 2);
+      ctx.fillText(track.label, 15, y + 12);
+      
+      // Simple waveform
+      ctx.strokeStyle = track.color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < 400; i++) {
+        const x = 80 + (i * (width - 100) / 400);
+        const waveY = y + Math.sin(i * 0.1 + timeRef.current * 0.02) * 8;
+        if (i === 0) ctx.moveTo(x, waveY);
+        else ctx.lineTo(x, waveY);
+      }
+      ctx.stroke();
+    });
+    
+    // Draw timeline markers at top
+    ctx.strokeStyle = '#666666';
+    ctx.fillStyle = '#999999';
+    ctx.font = '10px monospace';
+    for (let i = 0; i <= 10; i++) {
+      const x = 80 + ((width - 100) / 10) * i;
+      // Vertical line
+      ctx.beginPath();
+      ctx.moveTo(x, 20);
+      ctx.lineTo(x, height - 10);
+      ctx.stroke();
+      // Time marker
+      ctx.fillText(`${i}`, x + 3, 35);
+    }
+    
+    // Timeline labels at very top
+    const timeLabels = ['', '1', '2', '3', '10', '16', '1', '9', '6', '5', '9'];
+    timeLabels.forEach((label, i) => {
+      if (label) {
+        const x = 80 + ((width - 100) / 10) * i;
+        ctx.fillText(label, x + 3, 15);
+      }
+    });
+    
+    // Bottom timeline
+    ctx.fillStyle = '#666666';
+    ctx.fillText('MAR', 15, height - 10);
+    ctx.fillText('MASTER', width - 80, height - 10);
+  };
+
+  const HardwareButton = ({ children, active, onClick, color = '#666666', size = 'normal' }) => (
+    <button
+      onClick={onClick}
+      className={`relative transition-all duration-150 ${
+        size === 'small' ? 'text-xs px-2 py-1' : 'text-sm px-3 py-2'
+      } rounded`}
+      style={{
+        backgroundColor: active ? color : '#222222',
+        border: `1px solid ${active ? color : '#444444'}`,
+        color: active ? '#000000' : '#cccccc',
+        boxShadow: active 
+          ? `0 0 10px ${color}80, inset 0 0 5px ${color}40` 
+          : 'inset 0 0 5px #00000080',
+        textShadow: active ? 'none' : '0 1px 2px #000000'
+      }}
+    >
+      {children}
+    </button>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-700 p-6" style={{ backgroundColor: '#404040' }}>
+      <div className="max-w-full mx-auto">
+        
+        {/* Hardware Case */}
+        <div className="bg-gray-900 rounded-lg p-8 border-4 border-gray-600" 
+             style={{ 
+               backgroundColor: '#2a2a2a',
+               boxShadow: 'inset 0 0 50px #00000080, 0 0 30px #00000060'
+             }}>
+          
+          <div className="flex gap-8">
+            
+            {/* Main Display */}
+            <div className="flex-1 bg-black rounded-lg p-6 border-4 border-gray-700"
+                 style={{ boxShadow: 'inset 0 0 30px #00000080' }}>
+              
+              <canvas
+                ref={canvasRef}
+                width={1000}
+                height={500}
+                className="w-full h-full"
+                style={{ backgroundColor: '#000000' }}
+              />
+            </div>
+            
+            {/* Right Control Panel */}
+            <div className="w-80 bg-gray-800 rounded-lg p-6 border-2 border-gray-600"
+                 style={{ backgroundColor: '#1a1a1a' }}>
+              
+              {/* TITAN7 Header */}
+              <div className="text-right mb-6">
+                <div className="text-4xl font-bold text-white tracking-wider" 
+                     style={{ textShadow: '0 0 10px #ffffff40' }}>
+                  TITAN7
+                </div>
+              </div>
+              
+              {/* Top Button Grid */}
+              <div className="grid grid-cols-5 gap-1 mb-4">
+                {['MAGS', 'DUPL', 'GHOST', 'MULT', 'SHUFF'].map((label, i) => (
+                  <HardwareButton
+                    key={label}
+                    active={i === 1}
+                    color={i === 1 ? '#ff8800' : '#666666'}
+                    size="small"
+                  >
+                    {label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              <div className="grid grid-cols-4 gap-1 mb-6">
+                {['ANCH', 'HITBOX', 'CONF', 'LAY1', 'SHUFF', 'VIDEO', 'SHIFTLA', 'ST/MO'].map((label, i) => (
+                  <HardwareButton
+                    key={label}
+                    active={false}
+                    color="#666666"
+                    size="small"
+                  >
+                    {label.length > 4 ? label.slice(0, 4) : label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              {/* Large Control Knob */}
+              <div className="flex justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-full border-4 border-gray-500"
+                       style={{ 
+                         background: 'radial-gradient(circle at 30% 30%, #e0e0e0, #808080)',
+                         boxShadow: '0 4px 15px #00000060, inset 0 0 15px #ffffff40'
+                       }}>
+                    <div className="absolute inset-3 rounded-full"
+                         style={{ 
+                           background: 'radial-gradient(circle at 30% 30%, #a0a0a0, #404040)',
+                           boxShadow: 'inset 0 0 10px #00000080'
+                         }}>
+                    </div>
+                    <div className="absolute top-1 left-1/2 w-1 h-6 bg-white rounded transform -translate-x-1/2"
+                         style={{ boxShadow: '0 0 3px #000000' }}>
+                    </div>
+                  </div>
+                  
+                  {/* Small knob below */}
+                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+                    <div className="w-6 h-6 rounded-full bg-gray-700 border border-gray-500"></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Control Buttons */}
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                <HardwareButton active={false} color="#666666">SHUFF</HardwareButton>
+                <HardwareButton active={false} color="#666666">PRESET</HardwareButton>
+                <HardwareButton active={false} color="#666666">FADE</HardwareButton>
+              </div>
+              
+              {/* Additional Controls */}
+              <div className="grid grid-cols-4 gap-1 mb-4">
+                {['DELETE', 'CRUISE', 'CUT/FIT', 'TEMPO'].map((label) => (
+                  <HardwareButton key={label} active={false} color="#666666" size="small">
+                    {label}
+                  </HardwareButton>
+                ))}
+              </div>
+              
+              {/* Numeric Keypad */}
+              <div className="grid grid-cols-3 gap-1">
+                {[7, 8, 9, 4, 5, 6, 1, 2, 3].map((num) => (
+                  <HardwareButton key={num} active={false} color="#666666">
+                    {num}
+                  </HardwareButton>
+                ))}
+                <HardwareButton active={false} color="#666666">0</HardwareButton>
+                <HardwareButton active={false} color="#666666">.</HardwareButton>
+                <HardwareButton 
+                  active={isPlaying}
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  color="#00ff88"
+                >
+                  ▶
+                </HardwareButton>
+              </div>
+            </div>
+          </div>
+          
+          {/* Bottom Channel Mixer */}
+          <div className="mt-8 bg-black rounded-lg p-4 border-2 border-gray-700"
+               style={{ boxShadow: 'inset 0 0 20px #00000080' }}>
+            
+            <div className="flex justify-center">
+              <div className="grid grid-cols-20 gap-1" style={{ gridTemplateColumns: 'repeat(20, minmax(0, 1fr))' }}>
+                {channels.map((channel) => (
+                  <div key={channel.id} className="flex flex-col items-center">
+                    
+                    {/* Channel Button */}
+                    <HardwareButton
+                      active={channel.active}
+                      color={channel.color}
+                      size="small"
+                      onClick={() => {}}
+                    >
+                      <div className="text-xs" style={{ minWidth: '20px' }}>
+                        {channel.label}
+                      </div>
+                    </HardwareButton>
+                    
+                    {/* Vertical Fader */}
+                    <div className="mt-2 relative h-40 w-6 bg-gray-900 rounded border border-gray-600"
+                         style={{ 
+                           boxShadow: 'inset 0 0 8px #00000080'
+                         }}>
+                      
+                      {/* Fader Track */}
+                      <div className="absolute inset-x-1 inset-y-2 bg-gray-800 rounded-sm"></div>
+                      
+                      {/* Fader Handle */}
+                      <div 
+                        className="absolute w-8 h-4 bg-gray-300 rounded border border-gray-500 -left-1"
+                        style={{ 
+                          top: `${100 - channel.volume}%`,
+                          marginTop: '-8px',
+                          background: 'linear-gradient(135deg, #e8e8e8, #a0a0a0)',
+                          boxShadow: '0 2px 4px #00000060, inset 0 1px 2px #ffffff40'
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Volume Level Display */}
+                    <div className="mt-2 flex flex-col-reverse space-y-reverse space-y-px h-12">
+                      {[...Array(12)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-4 h-1 rounded-sm"
+                          style={{
+                            backgroundColor: i < (channel.volume / 100) * 12 ? 
+                              (i > 9 ? '#ff4444' : i > 6 ? '#ffaa00' : '#00ff44') : '#333333'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TITAN7Interface;

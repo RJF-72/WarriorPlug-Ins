@@ -1,0 +1,23 @@
+Thanks for assigning this issue to me. I'm starting to work on it and will keep this PR's description up to date as I form a plan and make progress.
+
+Original issue description:
+
+Design and implement the Warrior Instrument USB plugin for the Titan7 DAW system.
+
+Feature Overview:
+
+Plugin enables users to record live instruments and microphones directly via a USB strip, eliminating the need for expensive audio interfaces.
+Automatically detects the type of instrument or microphone connected via USB.
+Applies genre-specific and instrument-appropriate effects (EQ, compression, reverb, amp modeling, etc.) so every recording sounds like it's played by a professional studio musician.
+Real-time signal processing optimized for low latency and high fidelity.
+Intuitive, photorealistic UI matching the Titan7 DAW, with instrument selection, effect controls, and visual feedback.
+Preset and customization options for various instruments and genres.
+Seamless integration with DAW’s audio engine and track assignment.
+Stretch Features:
+
+Automatic profiling and enhancement for unusual or rare instruments.
+Effect chain recommendations based on reference tracks or genre selection.
+Live A/B audition and history for undo/redo of effect chains.
+The plugin should be ready for both software DAW and future hardware integration.
+
+Fixes #6.
