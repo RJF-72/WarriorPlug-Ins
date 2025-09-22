@@ -1,0 +1,26 @@
+[package]
+name = "dreammaker"
+version = "0.1.0"
+edition = "2021"
+description = "DreamMaker by Titan desktop application"
+authors = ["Warrior Audio"]
+license-file = "LICENSE.txt"
+
+[dependencies]
+eframe = { version = "0.27", default-features = false, features = ["default_fonts", "wgpu"] }
+egui = "0.27"
+cpal = "0.15"
+anyhow = { workspace = true }
+hound = "3.5"
+
+synth_engine = { path = "../../crates/synth_engine" }
+
+[package.metadata.warrior]
+product = "DreamMaker by Titan"
+sku = "DM-TITAN-001"
+price = 199
+currency = "USD"
+
+[[bin]]
+name = "dreammaker"
+path = "src/main.rs"

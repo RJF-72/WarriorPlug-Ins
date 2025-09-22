@@ -1,0 +1,12 @@
+[package]
+name = "common_dsp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+num-traits = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+rustfft = { workspace = true }
+realfft = { workspace = true }
+thiserror = { workspace = true }
+atomic_float = { workspace = true }

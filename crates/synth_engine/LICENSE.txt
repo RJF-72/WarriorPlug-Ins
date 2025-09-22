@@ -1,0 +1,8 @@
+Warrior Synth Engine - Proprietary License
+
+Copyright (c) 2025 Warrior Audio
+All rights reserved.
+
+This software is licensed for use solely within licensed Warrior Audio products.
+Redistribution, modification, or reverse engineering is prohibited without
+explicit written permission from Warrior Audio.

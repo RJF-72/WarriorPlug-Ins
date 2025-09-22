@@ -1,0 +1,8 @@
+Titan7 Mixing & Mastering Suite End User License Agreement (EULA)
+
+Copyright (c) 2025 Warrior Audio.
+All rights reserved.
+
+This software is licensed, not sold. By installing or using this software, you agree to be bound by the terms of this EULA. Redistribution is prohibited without prior written consent. One license grants usage on up to 2 machines for a single end user. Reverse engineering, modification, and resale are prohibited except where required by applicable law.
+
+For full terms and commercial licensing, contact: legal@warrioraudio.example

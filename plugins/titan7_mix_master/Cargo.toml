@@ -1,0 +1,21 @@
+[package]
+name = "titan7_mix_master"
+version = "0.1.0"
+edition = "2021"
+license-file = "LICENSE.txt"
+
+[lib]
+name = "titan7_mix_master"
+crate-type = ["cdylib"]
+
+[dependencies]
+nih_plug = { workspace = true }
+nih_plug_egui = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+common_dsp = { path = "../../crates/common_dsp" }
+
+[package.metadata.warrior]
+product_name = "Titan7 Mixing & Mastering Suite"
+price_usd = 199
+currency = "USD"
+sku = "T7-MM-01"

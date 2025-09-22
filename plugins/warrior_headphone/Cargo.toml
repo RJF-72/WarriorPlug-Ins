@@ -1,0 +1,21 @@
+[package]
+name = "warrior_headphone"
+version = "0.1.0"
+edition = "2021"
+license-file = "LICENSE.txt"
+
+[lib]
+name = "warrior_headphone"
+crate-type = ["cdylib"]
+
+[dependencies]
+nih_plug = { workspace = true }
+nih_plug_egui = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+common_dsp = { path = "../../crates/common_dsp" }
+
+[package.metadata.warrior]
+product_name = "Warrior Headphone"
+price_usd = 129
+currency = "USD"
+sku = "WH-01"

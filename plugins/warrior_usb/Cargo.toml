@@ -1,0 +1,21 @@
+[package]
+name = "warrior_usb"
+version = "0.1.0"
+edition = "2021"
+license-file = "LICENSE.txt"
+
+[lib]
+name = "warrior_usb"
+crate-type = ["cdylib"]
+
+[dependencies]
+nih_plug = { workspace = true }
+nih_plug_egui = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+common_dsp = { path = "../../crates/common_dsp" }
+
+[package.metadata.warrior]
+product_name = "Warrior USB Instrument"
+price_usd = 99
+currency = "USD"
+sku = "WU-01"

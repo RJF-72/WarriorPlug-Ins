@@ -1,0 +1,15 @@
+[package]
+name = "synth_engine"
+version = "0.1.0"
+edition = "2021"
+description = "Warrior Synth Engine core with C ABI"
+authors = ["Warrior Audio"]
+license-file = "LICENSE.txt"
+
+[lib]
+name = "synth_engine"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+hound = "3.5"
+hound = "3.5"
