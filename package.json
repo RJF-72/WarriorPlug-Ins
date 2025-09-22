@@ -1,0 +1,27 @@
+{
+  "name": "warrior-usb-recorder",
+  "version": "1.0.0",
+  "description": "Direct USB recording plugin for Titan7 DAW with auto-detection and genre-based effects",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p build && cd build && cmake .. && make -j4",
+    "clean": "rm -rf build",
+    "test": "cd build && ctest",
+    "install-deps": "sudo apt-get update && sudo apt-get install -y libportaudio2 libportaudio-dev libusb-1.0-0 libusb-1.0-0-dev cmake build-essential pkg-config"
+  },
+  "keywords": [
+    "audio",
+    "plugin",
+    "vst3",
+    "usb",
+    "recording",
+    "daw",
+    "titan7"
+  ],
+  "author": "Warrior Audio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RJF-72/WarriorPlug-Ins.git"
+  }
+}
