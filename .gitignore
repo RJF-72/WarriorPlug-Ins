@@ -1,0 +1,31 @@
+# Build directories
+Builds/
+build/
+out/
+
+# IDE files
+.vs/
+.vscode/
+*.user
+*.vcxproj.user
+*.xcworkspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Compiled binaries
+*.vst3
+*.component
+*.dll
+*.dylib
+*.so
+
+# Debug files
+*.pdb
+*.dSYM/
