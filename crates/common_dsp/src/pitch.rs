@@ -37,7 +37,7 @@ impl Yin {
                 let y1 = cmnd[tau - 1];
                 let y2 = cmnd[tau];
                 let y3 = cmnd[tau + 1];
-                let denom = (y1 - 2.0 * y2 + y3);
+                let denom = y1 - 2.0 * y2 + y3;
                 let tau_refined = if denom.abs() > 1e-9 {
                     tau as f32 + 0.5 * (y1 - y3) / denom
                 } else {

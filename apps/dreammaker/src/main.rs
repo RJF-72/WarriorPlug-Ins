@@ -1,11 +1,10 @@
 //! DreamMaker by Titan - Desktop App (Rust + egui)
 
-use eframe::egui::{self, Color32, RichText};
+use eframe::egui::{self, Color32, RichText, Widget};
 use eframe::{self, App, Frame, NativeOptions};
 use synth_engine::SynthParams;
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use std::sync::mpsc::{channel, Sender};
-use std::sync::{Arc, Mutex};
 use hound;
 
 #[derive(Clone, Copy)]
@@ -110,7 +109,7 @@ impl App for DreamMakerApp {
             // Tracks & Import
             ui.horizontal(|ui| {
                 ui.label("Track");
-                egui::DragValue::new(&mut self.selected_track).clamp_range(0..=63).speed(0.2).suffix("").ui(ui);
+                ui.add(egui::DragValue::new(&mut self.selected_track).clamp_range(0..=63).speed(0.2));
                 if ui.button("+ Add Track").clicked() { let _ = self.tx.send(Msg::CreateTrack); }
             });
             ui.horizontal(|ui| {
@@ -262,7 +261,7 @@ fn main() -> eframe::Result<()> {
             }
             if playing { timeline_pos += frames as u64; }
             for i in 0..frames { data[2*i] = l[i]; data[2*i+1] = r[i]; }
-        }, move |err| eprintln!("audio stream error: {err}")),
+        }, move |err| eprintln!("audio stream error: {err}"), None),
         cpal::SampleFormat::I16 => device.build_output_stream(&config.clone().into(), move |data: &mut [i16], _| {
             while let Ok(msg) = rx.try_recv() { match msg {
                 Msg::Params(p) => unsafe { synth_engine::synth_set_params(synth, p) },
@@ -289,7 +288,7 @@ fn main() -> eframe::Result<()> {
             }
             if playing { timeline_pos += frames as u64; }
             for i in 0..frames { data[2*i] = (l[i].clamp(-1.0,1.0)*32767.0) as i16; data[2*i+1] = (r[i].clamp(-1.0,1.0)*32767.0) as i16; }
-        }, move |err| eprintln!("audio stream error: {err}")),
+        }, move |err| eprintln!("audio stream error: {err}"), None),
         cpal::SampleFormat::U16 => device.build_output_stream(&config.into(), move |data: &mut [u16], _| {
             while let Ok(msg) = rx.try_recv() { match msg {
                 Msg::Params(p) => unsafe { synth_engine::synth_set_params(synth, p) },
@@ -313,8 +312,10 @@ fn main() -> eframe::Result<()> {
             for i in 0..frames { let pos = timeline_pos + i as u64; for tr in &tracks { for c in &tr.clips { if pos >= c.start { let idx=(pos-c.start) as usize; if idx < c.left.len() { l[i]+=c.left[idx]; r[i]+=c.right[idx]; } } } } }
             if playing { timeline_pos += frames as u64; }
             for i in 0..frames { let sl=((l[i].clamp(-1.0,1.0)*0.5+0.5)*65535.0) as u16; let sr=((r[i].clamp(-1.0,1.0)*0.5+0.5)*65535.0) as u16; data[2*i]=sl; data[2*i+1]=sr; }
-        }, move |err| eprintln!("audio stream error: {err}")),
+        }, move |err| eprintln!("audio stream error: {err}"), None),
+        _ => panic!("Unsupported sample format"),
     };
+    let stream = stream.expect("Failed to build audio stream");
     stream.play().expect("failed to play stream");
 
     let app = DreamMakerApp { params: SynthParams::default(), _stream: stream, tx, keys: [false; 12], selected_track: 0, wav_path: String::new(), sfz_list: Vec::new(), selected_sfz: 0, play_target: PlayTarget::Both };

@@ -8,11 +8,19 @@ license-file = "LICENSE.txt"
 name = "warrior_headphone"
 crate-type = ["cdylib"]
 
+[[bin]]
+name = "warrior_headphone"
+required-features = ["standalone"]
+
 [dependencies]
 nih_plug = { workspace = true }
 nih_plug_egui = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 common_dsp = { path = "../../crates/common_dsp" }
+
+[features]
+default = []
+standalone = []
 
 [package.metadata.warrior]
 product_name = "Warrior Headphone"

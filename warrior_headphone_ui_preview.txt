@@ -1,0 +1,76 @@
+🎧 WARRIOR HEADPHONE PLUGIN - UI PREVIEW
+===========================================
+
+The plugin UI (600x360 pixels) displays in a dark theme with the following layout:
+
+┌─────────────────────────────────────────────────────────────┐
+│                    🎧 Warrior Headphone                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Gain: [Current Value] dB     (Range: -24.0 to +24.0 dB)   │
+│                                                             │
+│  Blend: [Current Value]       (Range: 0.0 to 1.0)          │
+│  (Controls dry/wet mix of processed signal)                │
+│                                                             │
+│  Crossfeed: [Current Value]   (Range: 0.0 to 1.0)          │
+│  (Enhances stereo imaging for headphones)                  │
+│                                                             │
+│  ☐ Ultra Low Latency         (Toggle for real-time use)    │
+│                                                             │
+│  Model: [Selected Model] ▼   (Dropdown with options)       │
+│  • Model0, Model1, Model2, Model3, Model4,                 │
+│    Model5, Model6, Model7                                  │
+│                                                             │
+│  Codec: [Selected Codec] ▼   (Dropdown with options)       │
+│  • Off, SBC/AAC, aptX, LDAC                                │
+│                                                             │
+│                                                             │
+│  [Future: Frequency Response Graph would be displayed here] │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+CONTROL DETAILS:
+================
+
+🎚️ GAIN CONTROL
+   Purpose: Final output level adjustment
+   Default: 0.0 dB
+   Use: Compensate for level changes after processing
+
+🎚️ BLEND CONTROL  
+   Purpose: Mix between original and processed signal
+   Default: 1.0 (fully processed)
+   Use: Subtle integration of headphone correction
+
+🎚️ CROSSFEED CONTROL
+   Purpose: Reduce stereo separation for headphones
+   Default: 0.15
+   Use: Make headphone listening more natural
+
+⚡ ULTRA LOW LATENCY
+   Purpose: Bypass compressor and crossfeed for minimal delay
+   Default: Off
+   Use: Enable for real-time monitoring
+
+🎧 MODEL SELECTION
+   Purpose: Choose headphone EQ curve
+   Models: 8 different headphone response profiles
+   Use: Match your specific headphone model
+
+📡 CODEC COMPENSATION
+   Purpose: Compensate for wireless codec artifacts
+   Options: Off, SBC/AAC, aptX, LDAC
+   Use: Enhance wireless headphone audio quality
+
+TECHNICAL FEATURES:
+==================
+• 8-band parametric EQ per channel (20Hz - 20kHz)
+• Real-time biquad filter processing
+• Crossfeed algorithm with configurable delay (0.25ms)
+• Dynamic range compression (bypassed in ULL mode)
+• Thread-safe parameter automation
+• Sample rates: All standard rates supported
+• Formats: VST3 + CLAP compatible
+
+The plugin provides professional-grade headphone correction and enhancement, 
+with an intuitive interface for real-time parameter adjustment.

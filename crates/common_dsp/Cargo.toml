@@ -10,3 +10,4 @@ rustfft = { workspace = true }
 realfft = { workspace = true }
 thiserror = { workspace = true }
 atomic_float = { workspace = true }
+once_cell = { workspace = true }

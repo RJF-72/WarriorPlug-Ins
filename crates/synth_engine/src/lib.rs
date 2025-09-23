@@ -3,8 +3,10 @@
 use std::f32::consts::PI;
 use std::path::{Path, PathBuf};
 use std::fs;
+use anyhow;
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub struct SynthParams {
     pub gain_db: f32,
     pub cutoff: f32,
@@ -46,13 +48,13 @@ pub struct SynthEngine {
 impl SynthEngine {
     pub fn new(fs: f32) -> Self { Self { fs, params: SynthParams::default(), voices: [Voice::default(); 32], instr: None } }
     pub fn set_params(&mut self, p: &SynthParams) { self.params = *p; }
-    fn env_step(&self, v: &mut Voice) {
-        let a = (1.0 - (-1.0/(self.params.attack*self.fs)).exp()).clamp(0.0, 1.0);
-        let d = (1.0 - (-1.0/(self.params.decay*self.fs)).exp()).clamp(0.0, 1.0);
-        let r = (1.0 - (-1.0/(self.params.release*self.fs)).exp()).clamp(0.0, 1.0);
+    fn env_step(params: &SynthParams, fs: f32, v: &mut Voice) {
+        let a = (1.0 - (-1.0/(params.attack*fs)).exp()).clamp(0.0, 1.0);
+        let d = (1.0 - (-1.0/(params.decay*fs)).exp()).clamp(0.0, 1.0);
+        let r = (1.0 - (-1.0/(params.release*fs)).exp()).clamp(0.0, 1.0);
         match v.env_state {
             0 => { v.env += a * (1.0 - v.env); if v.env >= 0.999 { v.env_state = 1; } }
-            1 => { v.env += d * (self.params.sustain - v.env); if (v.env - self.params.sustain).abs() < 1e-3 { v.env_state = 2; } }
+            1 => { v.env += d * (params.sustain - v.env); if (v.env - params.sustain).abs() < 1e-3 { v.env_state = 2; } }
             2 => {}
             _ => { v.env += r * (0.0 - v.env); if v.env < 1e-4 { v.active = false; }
             }
@@ -77,7 +79,7 @@ impl SynthEngine {
             let f0 = Self::note_freq(v.note);
             let uni = self.params.unison.max(1) as usize;
             for i in 0..n {
-                self.env_step(v);
+                Self::env_step(&self.params, self.fs, v);
                 let mut s = 0.0;
                 for k in 0..uni {
                     let det = (k as f32 - (uni as f32 - 1.0)/2.0) * 0.003;
@@ -104,7 +106,11 @@ impl SynthEngine {
 
 // C ABI for universal integration
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct SynthHandle(*mut SynthEngine);
+
+// SAFETY: SynthEngine operations are designed to be thread-safe for audio processing
+unsafe impl Send for SynthHandle {}
 
 #[no_mangle]
 pub extern "C" fn synth_new(fs: f32) -> SynthHandle {

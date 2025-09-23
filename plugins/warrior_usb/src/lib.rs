@@ -3,23 +3,35 @@
 // Licensed under the accompanying LICENSE.txt in this crate. Redistribution prohibited.
 
 use nih_plug::prelude::*;
-use nih_plug_egui::{create_egui_editor, EguiContext, EguiState};
+use nih_plug_egui::{create_egui_editor, EguiState, egui};
 use common_dsp::{Biquad, coeffs_lowshelf, coeffs_peaking, SimpleCompressor};
 use realfft::num_complex::Complex32;
 use common_dsp::{FftCache, hann};
 use atomic_float::AtomicF32;
 use once_cell::sync::Lazy;
+use std::sync::Arc;
 
 static IN_RMS: Lazy<AtomicF32> = Lazy::new(|| AtomicF32::new(0.0));
 static OUT_RMS: Lazy<AtomicF32> = Lazy::new(|| AtomicF32::new(0.0));
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum Instrument { Auto, Guitar, Bass, VocalMic, Keys }
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Enum)]
+enum Instrument { 
+    #[id = "auto"]
+    Auto,
+    #[id = "guitar"] 
+    Guitar,
+    #[id = "bass"]
+    Bass,
+    #[id = "vocal"]
+    VocalMic,
+    #[id = "keys"]
+    Keys 
+}
 
-#[derive(Params, Clone)]
+#[derive(Params)]
 struct UsbParams {
     #[id = "inst"]
-    inst: EnumParam<i32>,
+    inst: EnumParam<Instrument>,
     #[id = "gain"]
     out_gain: FloatParam,
     #[id = "ull"]
@@ -37,7 +49,7 @@ struct UsbParams {
 impl Default for UsbParams {
     fn default() -> Self {
         Self {
-            inst: EnumParam::new("Instrument", 0, vec![0,1,2,3,4]).with_value_to_string(Arc::new(|v| match v { 0=>"Auto".into(), 1=>"Guitar".into(), 2=>"Bass".into(), 3=>"Vocal Mic".into(), 4=>"Keys".into(), _=>"Auto".into()})),
+            inst: EnumParam::new("Instrument", Instrument::Auto),
             out_gain: FloatParam::new("Output Gain", 0.0, FloatRange::Linear { min: -24.0, max: 24.0 }).with_unit(" dB"),
             ultra_low_latency: BoolParam::new("Ultra Low Latency", false),
             drive: FloatParam::new("Drive", 0.4, FloatRange::Linear { min: 0.0, max: 1.0 }),
@@ -71,7 +83,7 @@ impl Default for UsbPlugin {
         let n = 1024;
         Self {
             params: Arc::new(UsbParams::default()),
-            egui_state: EguiState::from_size(760, 460),
+            egui_state: Arc::new(EguiState::from_size(760, 460)),
             fs: 44100.0,
             fft: FftCache::new(n),
             window: hann(n),

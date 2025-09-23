@@ -34,9 +34,9 @@ impl Crossfeed {
         self.delay_samps = d.min(MAX_DELAY - 1).max(0);
     }
     #[inline]
-    fn shelf(&mut self, x: f32, zr: &mut f32) -> f32 {
+    fn shelf_filter(shelf_a: f32, x: f32, zr: &mut f32) -> f32 {
         // one-pole lowpass as crossfeed EQ
-        let y = self.shelf_a * x + (1.0 - self.shelf_a) * *zr;
+        let y = shelf_a * x + (1.0 - shelf_a) * *zr;
         *zr = y;
         y
     }
@@ -51,8 +51,9 @@ impl Crossfeed {
         self.wl = (self.wl + 1) % MAX_DELAY;
         self.wr = (self.wr + 1) % MAX_DELAY;
 
-        let xl = self.shelf(ld, &mut self.shelf_zl);
-        let xr = self.shelf(rd, &mut self.shelf_zr);
+        // Process left and right channels separately to avoid borrow checker issues
+        let xl = Self::shelf_filter(self.shelf_a, ld, &mut self.shelf_zl);
+        let xr = Self::shelf_filter(self.shelf_a, rd, &mut self.shelf_zr);
         let ll = l + self.amount * (xl - l);
         let rr = r + self.amount * (xr - r);
         (ll, rr)
